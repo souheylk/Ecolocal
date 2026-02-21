@@ -1,0 +1,101 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+
+}
+
+body {
+  margin: 0px;
+  padding-bottom: 50px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  text-align: center;
+}
+
+a{
+  color: white;
+  text-decoration: none
+}
+nav {
+  background-color: #390080;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+aside {
+  float: left;
+  padding: 5px;
+}
+
+
+form {
+  text-align: center;
+}
+
+.logo {
+  background-color: #000000;
+  padding: 10px;
+}
+
+h1{
+  color: #390080;
+  padding: 10px;
+  text-align: center;
+}
+
+h2 {
+  clear: both;
+  margin-left: 2rem;
+  color: #6450ff;
+}
+
+
+p, span {
+  clear: both;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  font-size: 1.10em;
+  color: #800026;
+
+}
+
+input, select, button{
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #390080;
+  border-radius: 5px;
+  color: #6450ff;
+}
+
+fieldset {
+  margin-left: 5rem;
+  margin-right: 5rem;
+  color: #800026;
+  border: 1px solid #390080;
+  padding: 10px;
+}
+
+.menu{
+  color:#999;
+  background:rgba(0, 0, 0, 0.5);
+  padding:10px 20px;
+  font-size:12px;
+  text-decoration:none;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  }
+
+.menu:hover{
+  border:none;
+  background:rgba(0, 0, 0, 0.4);
+  background:#fff;
+  padding:20px 20px;
+  color:#1b1b1b;
+}
