@@ -3,28 +3,216 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ecolo'cal - Covoiturage</title>
-  <link rel="stylesheet" href="PROJET.css" />
-  <script src="PROJET.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/covoit.css" />
 </head>
 
 <body>
   <header>
-      <a href="accueil.html">
-        <div class="logo">
-        <!-- Mettre logo site -->
+    <h1>Ecolo'cal - Déplacez-vous autrement</h1>
+    <nav>
+      <ul>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="carte.html">Carte interactive</a></li>
+        <li><a href="covoit.html" class="nav-actif">Covoiturage</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- RECHERCHE -->
+  <section class="section-recherche">
+    <div class="recherche-contenu">
+      <h2 class="recherche-titre">🚗 Trouvez votre prochain trajet</h2>
+      <p class="recherche-sous-titre">Des milliers de conducteurs dans la métropole lyonnaise</p>
+
+      <form class="formulaire-recherche" id="formRecherche">
+        <div class="ligne-champs">
+          <div class="champ">
+            <span class="icone-champ">📍</span>
+            <input type="text" id="inputDepart" placeholder="Départ (ex. : Lyon Part-Dieu)" autocomplete="off">
+          </div>
+          <div class="btn-inverser" id="btnSwap" title="Inverser">⇄</div>
+          <div class="champ">
+            <span class="icone-champ">🏁</span>
+            <input type="text" id="inputArrivee" placeholder="Arrivée (ex. : Villeurbanne)" autocomplete="off">
+          </div>
+          <div class="champ champ--moyen">
+            <span class="icone-champ">📅</span>
+            <input type="date" id="inputDate">
+          </div>
+          <div class="champ champ--petit">
+            <span class="icone-champ">👤</span>
+            <input type="number" id="inputPlaces" min="1" max="6" value="1" placeholder="Places">
+          </div>
+          <button type="submit" class="btn btn--principal">Rechercher</button>
         </div>
-      </a>
-    </header>
 
-  <!-- menu -->
-  <nav>
-      <a href="accueil.html" class="menu">Accueil</a>
-      <a href="carte.html" class="menu">Carte Interactive</a>
-      <a href="covoit.html" class="menu">Covoiturage</a>
-      <a href="apropos.html" class="menu">A propos</a>
-  </nav>
+        <!-- Filtres avancés -->
+        <div class="filtres" id="filtresAvances">
+          <button type="button" class="filtres-bouton" id="btnFiltres">
+            <span>⚙️ Filtres avancés</span>
+            <span class="filtres-fleche">▼</span>
+          </button>
+          <div class="filtres-panneau" id="panelFiltres">
+            <div class="filtres-grille">
+              <div class="filtre-element">
+                <label for="filtrePrix">Prix max. (€)</label>
+                <div class="curseur-prix">
+                  <input type="range" id="filtrePrix" min="0" max="30" value="30" step="1">
+                  <span id="valPrix">30 €</span>
+                </div>
+              </div>
+              <div class="filtre-element">
+                <label for="filtreHeure">Heure de départ</label>
+                <input type="time" id="filtreHeure">
+              </div>
+              <div class="filtre-element">
+                <label for="filtreConducteur">Type de conducteur</label>
+                <select id="filtreConducteur">
+                  <option value="">Tous</option>
+                  <option value="etudiant">Étudiant</option>
+                  <option value="salarie">Salarié</option>
+                  <option value="retraite">Retraité</option>
+                </select>
+              </div>
+              <div class="filtre-element filtre-case">
+                <label class="toggle">
+                  <input type="checkbox" id="filtreEco">
+                  🌿 Véhicule écologique uniquement
+                  <span class="toggle-rond"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
 
+  <!--CONTENU PRINCIPAL-->
+  <main class="contenu-principal">
+
+    <!-- Colonne résultats -->
+    <section class="resultats" id="sectionResultats">
+      <div class="resultats-entete">
+        <h3 id="titreResultats">Trajets disponibles</h3>
+        <span class="compteur" id="compteurResultats"></span>
+      </div>
+      <div id="listeCovoiturages" class="liste-trajets"></div>
+      <div id="msgAucunResultat" class="aucun-resultat" style="display:none;">
+        <span class="vide-icone">🔍</span>
+        <p>Aucun trajet ne correspond à votre recherche.</p>
+        <p class="vide-sous-titre">Essayez de modifier vos critères ou proposez vous-même un trajet !</p>
+        <button class="btn btn--principal" onclick="ouvrirModal()">Proposer un trajet</button>
+      </div>
+    </section>
+
+    <!-- Sidebar : mes trajets -->
+    <aside class="sidebar">
+      <div class="sidebar-boite">
+        <h3>🚘 Mes trajets proposés</h3>
+        <p class="sidebar-info">Vous êtes connecté en tant que <strong id="affichageUser"></strong></p>
+        <div id="mesTrajets" class="mes-trajets"></div>
+        <button class="btn btn--principal btn--plein" onclick="ouvrirModal()">
+          + Proposer un trajet
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <!--MODAL : PROPOSER UN TRAJET-->
+  <div class="fond-modal" id="modalOverlay" onclick="fermerModal(event)">
+    <div class="modal" id="modal">
+      <button class="modal-fermer" onclick="fermerModal()">✕</button>
+      <h2 class="modal-titre" id="modalTitre">Proposer un trajet</h2>
+
+      <form class="formulaire-modal" id="formProposer" novalidate>
+        <input type="hidden" id="editIndex" value="">
+
+        <div class="form-ligne">
+          <div class="form-groupe">
+            <label for="fDepart">📍 Départ *</label>
+            <input type="text" id="fDepart" placeholder="Ex. : Lyon Perrache" required>
+            <span class="form-erreur" id="errDepart"></span>
+          </div>
+          <div class="form-groupe">
+            <label for="fArrivee">🏁 Arrivée *</label>
+            <input type="text" id="fArrivee" placeholder="Ex. : Vaulx-en-Velin" required>
+            <span class="form-erreur" id="errArrivee"></span>
+          </div>
+        </div>
+
+        <div class="form-ligne">
+          <div class="form-groupe">
+            <label for="fDate">📅 Date *</label>
+            <input type="date" id="fDate" required>
+            <span class="form-erreur" id="errDate"></span>
+          </div>
+          <div class="form-groupe">
+            <label for="fHeure">🕐 Heure *</label>
+            <input type="time" id="fHeure" required>
+          </div>
+        </div>
+
+        <div class="form-ligne">
+          <div class="form-groupe">
+            <label for="fPlaces">👤 Places disponibles *</label>
+            <input type="number" id="fPlaces" min="1" max="6" value="2" required>
+            <span class="form-erreur" id="errPlaces"></span>
+          </div>
+          <div class="form-groupe">
+            <label for="fPrix">💶 Prix par personne (€) *</label>
+            <input type="number" id="fPrix" min="0" max="50" step="0.5" value="5" required>
+            <span class="form-erreur" id="errPrix"></span>
+          </div>
+        </div>
+
+        <div class="form-ligne">
+          <div class="form-groupe">
+            <label for="fVehicule">🚗 Véhicule</label>
+            <select id="fVehicule">
+              <option value="Voiture">Voiture classique</option>
+              <option value="Électrique">Voiture électrique 🌿</option>
+              <option value="Hybride">Voiture hybride 🌿</option>
+              <option value="Minibus">Minibus</option>
+            </select>
+          </div>
+          <div class="form-groupe">
+            <label for="fConducteur">👤 Profil du conducteur</label>
+            <select id="fConducteur">
+              <option value="etudiant">Étudiant</option>
+              <option value="salarie">Salarié</option>
+              <option value="retraite">Retraité</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-groupe">
+          <label for="fDescription">💬 Description</label>
+          <textarea id="fDescription" rows="3" placeholder="Infos utiles : bagages, musique, animaux..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn--discret" onclick="fermerModal()">Annuler</button>
+          <button type="submit" class="btn btn--principal" id="btnSubmitForm">Publier le trajet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!--TOAST NOTIFICATION-->
+  <div class="notification" id="toast"></div>
+
+  <footer>
+    <p>Ecolo'cal - Déplacez-vous autrement • Données : <a href="https://data.grandlyon.com">Open Data du Grand Lyon</a></p>
+  </footer>
+
+  <script src="js/covoiturage.js"></script>
 </body>
 </html>

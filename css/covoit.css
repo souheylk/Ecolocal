@@ -1,0 +1,587 @@
+/* Variables de couleurs et espacements de la page */
+:root {
+  --olive:       #546249;
+  --olive-fonce: rgb(66, 83, 33);
+  --bleu:        #2E86DE;
+  --vert:        #2ECC71;
+  --orange:      #E67E22;
+  --creme:       rgb(255, 249, 225);
+  --blanc:       #ffffff;
+  --texte:       #2c2c2c;
+  --discret:     #6b7280;
+  --bordure:     #e5e7eb;
+  --rayon:       12px;
+  --rayon-sm:    8px;
+  --ombre:       0 4px 16px rgba(0,0,0,0.08);
+  --ombre-lg:    0 10px 32px rgba(0,0,0,0.14);
+  --transition:  0.2s ease;
+}
+
+/* Lien actif dans la navigation */
+nav ul li a.nav-actif {
+  background-color: var(--olive);
+  color: white;
+  font-weight: 600;
+}
+
+/* Bandeau vert en haut de page avec le formulaire de recherche */
+.section-recherche {
+  background: linear-gradient(135deg, var(--olive-fonce) 0%, var(--olive) 100%);
+  padding: 48px 24px 56px;
+  text-align: center;
+}
+
+.recherche-contenu {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.recherche-titre {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.recherche-sous-titre {
+  color: rgba(255,255,255,0.78);
+  font-size: 1rem;
+  margin: 0 0 28px;
+}
+
+/* Carte blanche qui contient les champs de recherche */
+.formulaire-recherche {
+  background: white;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-lg);
+  padding: 20px;
+}
+
+/* Ligne horizontale des champs de recherche */
+.ligne-champs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Un champ de saisie avec icône */
+.champ {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-sm);
+  padding: 10px 14px;
+  flex: 1;
+  min-width: 160px;
+  transition: border-color var(--transition);
+}
+
+.champ:focus-within {
+  border-color: var(--bleu);
+  background: white;
+}
+
+.champ--moyen   { flex: 0.6; min-width: 140px; }
+.champ--petit   { flex: 0.35; min-width: 100px; }
+
+.champ input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.9rem;
+  color: var(--texte);
+  width: 100%;
+}
+
+.icone-champ { font-size: 1rem; flex-shrink: 0; }
+
+/* Bouton pour inverser départ et arrivée */
+.btn-inverser {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--olive);
+  padding: 6px;
+  border-radius: 6px;
+  transition: background var(--transition);
+  user-select: none;
+}
+.btn-inverser:hover { background: #f0f4ef; }
+
+/* Zone des filtres avancés (cachée par défaut) */
+.filtres { margin-top: 14px; }
+
+.filtres-bouton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--discret);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  transition: color var(--transition);
+}
+.filtres-bouton:hover { color: var(--olive); }
+
+/* Flèche qui tourne quand les filtres sont ouverts */
+.filtres-fleche {
+  display: inline-block;
+  transition: transform var(--transition);
+}
+.filtres-bouton.ouvert .filtres-fleche { transform: rotate(180deg); }
+
+.filtres-panneau {
+  display: none;
+  padding-top: 16px;
+  animation: apparaitre 0.2s ease;
+}
+.filtres-panneau.visible { display: block; }
+
+/* Grille des options de filtre */
+.filtres-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.filtre-element label:first-child {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--discret);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filtre-element input[type="time"],
+.filtre-element select {
+  width: 45%;
+  padding: 8px 10px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-sm);
+  font-size: 0.9rem;
+  background: #f9fafb;
+  color: var(--texte);
+}
+
+/* Slider pour choisir le prix maximum */
+.curseur-prix {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.curseur-prix input[type="range"] {
+  flex: 1;
+  accent-color: var(--olive);
+}
+.curseur-prix span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--olive-fonce);
+  min-width: 38px;
+}
+
+/* Interrupteur on/off pour le filtre écologique */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--texte);
+  margin-top: 6px;
+}
+.toggle input { display: none; }
+.toggle-rond {
+  display: block;
+  width: 40px;
+  height: 22px;
+  background: var(--bordure);
+  border-radius: 99px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+.toggle-rond::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition);
+}
+.toggle input:checked + .toggle-rond { background: var(--vert); }
+.toggle input:checked + .toggle-rond::after { transform: translateX(18px); }
+
+/* Mise en page principale : résultats à gauche, sidebar à droite */
+.contenu-principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Titre et compteur au-dessus de la liste */
+.resultats-entete {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.resultats-entete h3 {
+  font-size: 1.2rem;
+  color: var(--olive-fonce);
+  margin: 0;
+}
+
+/* Pastille verte avec le nombre de résultats */
+.compteur {
+  background: var(--olive);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 99px;
+}
+
+/* Grille des cartes de trajets */
+.liste-trajets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Une carte de trajet */
+.carte-trajet {
+  background: var(--blanc);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 16px;
+  align-items: start;
+  border: 1px solid transparent;
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+  cursor: pointer;
+}
+
+.carte-trajet:hover {
+  box-shadow: var(--ombre-lg);
+  transform: translateY(-2px);
+  border-color: var(--bleu);
+}
+
+/* Bordure gauche verte pour les trajets de l'utilisateur */
+.carte-trajet--mienne {
+  border-left: 4px solid var(--olive);
+}
+
+/* Photo de profil du conducteur */
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--creme);
+}
+
+.carte-infos { min-width: 0; }
+
+.carte-entete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.nom-conducteur { font-weight: 700; font-size: 0.95rem; color: var(--texte); }
+.etoiles        { font-size: 0.85rem; color: #f59e0b; }
+.note-avis      { font-size: 0.8rem; color: var(--discret); }
+
+/* Ligne départ → arrivée */
+.trajet-ligne {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--olive-fonce);
+  margin-bottom: 8px;
+}
+
+.fleche-trajet { color: var(--bleu); font-size: 1.1rem; }
+
+/* Infos secondaires (date, heure, places, véhicule) */
+.meta-infos {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  color: var(--discret);
+}
+.meta-infos span { display: flex; align-items: center; gap: 4px; }
+
+/* Étiquette verte pour les véhicules écologiques */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  margin-top: 6px;
+}
+
+/* Colonne de droite avec le prix et les boutons */
+.prix-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.prix          { font-size: 1.35rem; font-weight: 700; color: var(--olive-fonce); }
+.places-dispo  { font-size: 0.78rem; color: var(--discret); text-align: right; }
+
+.actions-carte {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* Message affiché quand aucun trajet ne correspond à la recherche */
+.aucun-resultat {
+  text-align: center;
+  padding: 56px 24px;
+  background: white;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+.vide-icone      { font-size: 3rem; display: block; margin-bottom: 12px; }
+.aucun-resultat p         { color: var(--discret); margin: 6px 0; }
+.vide-sous-titre { font-size: 0.85rem; }
+
+/* Panneau latéral fixe avec les trajets de l'utilisateur */
+.sidebar-boite {
+  background: white;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  padding: 22px;
+  position: sticky;
+  top: 70px;
+}
+
+.sidebar-boite h3    { font-size: 1rem; color: var(--olive-fonce); margin: 0 0 8px; }
+.sidebar-info        { font-size: 0.82rem; color: var(--discret); margin: 0 0 16px; }
+.mes-trajets         { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+/* Résumé compact d'un trajet dans la sidebar */
+.mini-trajet {
+  background: var(--creme);
+  border-radius: var(--rayon-sm);
+  padding: 12px;
+  border-left: 3px solid var(--olive);
+}
+.mini-trajet-titre   { font-size: 0.88rem; font-weight: 600; color: var(--olive-fonce); margin-bottom: 4px; }
+.mini-trajet-info    { font-size: 0.78rem; color: var(--discret); margin-bottom: 8px; }
+.mini-trajet-actions { display: flex; gap: 6px; }
+
+.sidebar-vide { text-align: center; font-size: 0.85rem; color: var(--discret); padding: 16px 0; }
+
+/* Styles communs à tous les boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--rayon-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn--principal  { background: var(--olive); color: white; }
+.btn--principal:hover { background: var(--olive-fonce); transform: translateY(-1px); }
+
+.btn--discret    { background: transparent; border-color: var(--bordure); color: var(--discret); }
+.btn--discret:hover { border-color: var(--olive); color: var(--olive); }
+
+.btn--supprimer  { background: transparent; border-color: #fecaca; color: #dc2626; padding: 5px 10px; font-size: 0.78rem; }
+.btn--supprimer:hover { background: #fee2e2; }
+
+.btn--modifier   { background: transparent; border-color: #bfdbfe; color: var(--bleu); padding: 5px 10px; font-size: 0.78rem; }
+.btn--modifier:hover { background: #eff6ff; }
+
+.btn--petit      { padding: 6px 12px; font-size: 0.78rem; }
+.btn--plein      { width: 100%; }
+
+/* Fond sombre derrière la modale */
+.fond-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: apparaitre 0.2s ease;
+}
+.fond-modal.active { display: flex; }
+
+/* Boîte blanche de la modale */
+.modal {
+  background: white;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: glisser-haut 0.25s ease;
+}
+
+.modal-fermer {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--discret);
+  transition: color var(--transition);
+}
+.modal-fermer:hover { color: var(--texte); }
+
+.modal-titre { font-size: 1.3rem; color: var(--olive-fonce); margin: 0 0 24px; }
+
+/* Deux champs côte à côte dans le formulaire */
+.form-ligne {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Un champ du formulaire avec son label et son message d'erreur */
+.form-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-groupe label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--discret);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-groupe input,
+.form-groupe select,
+.form-groupe textarea {
+  padding: 10px 14px;
+  border: 1.5px solid var(--bordure);
+  border-radius: var(--rayon-sm);
+  font-size: 0.9rem;
+  color: var(--texte);
+  background: #fafafa;
+  transition: border-color var(--transition);
+  resize: vertical;
+}
+
+.form-groupe input:focus,
+.form-groupe select:focus,
+.form-groupe textarea:focus {
+  outline: none;
+  border-color: var(--olive);
+  background: white;
+}
+
+.form-groupe input.invalide { border-color: #dc2626; }
+
+/* Message d'erreur sous un champ */
+.form-erreur { font-size: 0.78rem; color: #dc2626; min-height: 16px; }
+
+.form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+
+/* Notification temporaire en bas de page */
+.notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--olive-fonce);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--ombre-lg);
+  z-index: 3000;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.notification.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes apparaitre {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes glisser-haut {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes entree-carte {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.carte-trajet { animation: entree-carte 0.25s ease both; }
+
+/* Responsive tablette */
+@media (max-width: 900px) {
+  .contenu-principal {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 80px;
+  }
+  .sidebar-boite { position: static; }
+  .carte-trajet  { grid-template-columns: 52px 1fr; }
+  .prix-actions  { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; }
+}
+
+/* Responsive mobile */
+@media (max-width: 600px) {
+  .ligne-champs  { flex-direction: column; }
+  .champ         { min-width: unset; }
+  .form-ligne    { grid-template-columns: 1fr; }
+  .recherche-titre { font-size: 1.4rem; }
+  .carte-trajet  { grid-template-columns: 48px 1fr; }
+}
